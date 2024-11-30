@@ -4,22 +4,31 @@ class Base531(WendlerTemplate):
 
     TRAINING_MAX_RATE = 0.9
 
-    def __init__(self, bench_onerm, squat_onerm, ohp_onerm, deadlift_onerm, variation=None):
+    def __init__(self, supplied_tm_inputs, bench_onerm, squat_onerm, ohp_onerm, deadlift_onerm, variation=None):
         # Validate Supplementary:
-        if variation not in (None, "FSL_5x5", "FSL_Widowmaker", "FSL_Pyramid"):
-            raise ValueError("FSL_type must be either 'FSL_5x5', 'FSL_Widowmaker', 'FSL_Pyramid' or None")
+        if variation not in (None, "fsl-5x5", "fsl-widowmaker", "fsl-pyramid"):
+            raise ValueError("FSL_type must be either 'fsl-5x5', 'fsl-widowmaker', 'fsl-pyramid' or None")
         self.variation = variation
 
         self.bench_onerm = bench_onerm
         self.squat_onerm = squat_onerm
         self.ohp_onerm = ohp_onerm
         self.deadlift_onerm = deadlift_onerm
-        self.training_maxes = {
-            "Bench": bench_onerm * Base531.TRAINING_MAX_RATE,
-            "Squat": squat_onerm * Base531.TRAINING_MAX_RATE,
-            "OHP": ohp_onerm * Base531.TRAINING_MAX_RATE,
-            "Deadlift": deadlift_onerm * Base531.TRAINING_MAX_RATE
-        }
+
+        if supplied_tm_inputs:
+            self.training_maxes = {
+                "Bench": bench_onerm,
+                "Squat": squat_onerm,
+                "OHP": ohp_onerm,
+                "Deadlift": deadlift_onerm
+            }
+        else:
+            self.training_maxes = {
+                "Bench": bench_onerm * Base531.TRAINING_MAX_RATE,
+                "Squat": squat_onerm * Base531.TRAINING_MAX_RATE,
+                "OHP": ohp_onerm * Base531.TRAINING_MAX_RATE,
+                "Deadlift": deadlift_onerm * Base531.TRAINING_MAX_RATE
+            }
     
     def generate_plan(self):
         # Define the percentages and reps for each week
@@ -29,6 +38,12 @@ class Base531(WendlerTemplate):
             "Week 3 (5/3/1+)": {"percentages": [0.75, 0.85, 0.95], "reps": ["5", "3", "1+"]},
             "Week 4 (Deload)": {"percentages": [0.40, 0.50, 0.60], "reps": ["5", "5", "5"]},
         }
+
+        # Print the Plan:
+        print(f"Wendler 5/3/1: {self.variation if self.variation else 'Base 5/3/1'}")
+        print("\nTraining Maxes:")
+        for lift, tm in self.training_maxes.items():
+            print(f"  {lift}: {tm:.2f} kgs")
 
         # Print the plan
         for week, details in week_details.items():
@@ -47,11 +62,11 @@ class Base531(WendlerTemplate):
                 # Add FSL sets if FSL_type is set and it's not deload week
                 if self.variation and week != "Week 4 (Deload)":
                     fsl_weight = tm * percentages[0]  # First Set Last (FSL) weight
-                    if self.variation == "FSL_5x5":
+                    if self.variation == "fsl-5x5":
                         print(f"    5x5 FSL: 5 sets of 5 reps @ {fsl_weight:.2f} kgs ({percentages[0]*100:.0f}%)")
-                    elif self.variation == "FSL_Widowmaker":
+                    elif self.variation == "fsl-widowmaker":
                         print(f"    Widowmaker FSL: AMRAP (15-20) @ {fsl_weight:.2f} kgs ({percentages[0]*100:.0f}%)")
-                    elif self.variation == "FSL_Pyramid":
+                    elif self.variation == "fsl-pyramid":
                         for i, (percent, reps) in enumerate(list(zip(percentages[::-1], reps_scheme[::-1]))[1:]):
                             weight = tm * percent
                             if i == len(reps_scheme) - 2:
