@@ -1,9 +1,11 @@
-class WendlerTemplate:
-    def __init__(self, bench_onerm, squat_onerm, ohp_onerm, deadlift_onerm):
-        self.bench_onerm = bench_onerm
-        self.squat_onerm = squat_onerm
-        self.ohp_onerm = ohp_onerm
-        self.deadlift_onerm = deadlift_onerm
+from abc import ABC, abstractmethod
 
+class WendlerTemplate(ABC):
+
+    @abstractmethod
+    def __init__(self, supplied_tm_inputs, bench_onerm, squat_onerm, ohp_onerm, deadlift_onerm, variation=None):
+        pass
+
+    @abstractmethod
     def generate_plan(self):
-        raise NotImplementedError
+        pass
