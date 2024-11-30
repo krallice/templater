@@ -1,16 +1,29 @@
 #!/usr/bin/python3
 
+import argparse
+
 def do_main():
+
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Set the weights for the workout schedule.")
+    parser.add_argument("--squat", type=float, default=120, help="Weight for Heavy Squat (5s)")
+    parser.add_argument("--pull", type=float, default=140, help="Weight for Heavy Pull (5s)")
+    parser.add_argument("--press", type=float, default=60, help="Weight for Heavy Press (5s)")
+
+    parser.add_argument("--medium-reduction", type=float, default=10, help="%% reduction for Medium Days")
+    parser.add_argument("--light-reduction", type=float, default=20, help="%% reduction for Light Days")
+    args = parser.parse_args()
+
     # Define heavy weights and reduction percentages
     weights = {
-        "Heavy Squat (5s)": 120,
-        "Heavy Pull (5s)": 140,
-        "Heavy Press (5s)": 60,
+        "Heavy Squat (5s)": args.squat if args.squat is not None else 120,
+        "Heavy Pull (5s)": args.pull if args.pull is not None else 140,
+        "Heavy Press (5s)": args.press if args.press is not None else 60,
     }
 
     reductions = {
-        "Medium Reduction": 0.10,  # 10% reduction for Medium Days
-        "Light Reduction": 0.20,   # 20% reduction for Light Days
+        "Medium Reduction": (args.medium_reduction / 100) if args.medium_reduction is not None else 0.10,
+        "Light Reduction": (args.light_reduction / 100) if args.light_reduction is not None else 0.20
     }
 
     # Calculate reduced weights
@@ -23,7 +36,7 @@ def do_main():
         "Light Press": weights["Heavy Press (5s)"] * (1 - reductions["Light Reduction"]),
     }
 
-    # Round weights to 0.5 kg
+    # Round weights to 0.5 kg (or nearest precision as required)
     for key in reduced_weights:
         reduced_weights[key] = round(reduced_weights[key] * 2) / 2
 
