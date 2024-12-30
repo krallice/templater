@@ -41,6 +41,7 @@ class WendlerBasic531Generator:
                  active_lifts: Optional[List[str]] = None,
                  max_type: MaxType = MaxType.TRAINING_MAX,
                  tm_percentage: float = 90.0,
+                 header_text:Optional[str] = None,
                  templates: List[Template] = None,
                  fsl_params: Optional[dict] = None):
         """
@@ -57,6 +58,9 @@ class WendlerBasic531Generator:
             templates (List[Template]): List of templates to include in the program.
             fsl_params (Optional[dict]): Additional parameters for FSL template.
         """
+
+        self.header_text = header_text
+
         self.templates = templates if templates else []
 
         self.active_lifts = active_lifts or ['squat', 'bench', 'deadlift', 'press']
@@ -165,6 +169,8 @@ class WendlerBasic531Generator:
         Print the program info and generate the 5/3/1 program.
         """
         print(f"Wendler 5/3/1: {''.join([template.value for template in self.templates])}")
+
+        print(self.header_text) if self.header_text else None
 
         print("\nTraining Maxes:")
         for lift, tm in self.maxes.items():

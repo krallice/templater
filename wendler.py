@@ -23,6 +23,11 @@ if __name__ == '__main__':
         squat=lifts["squat"], bench=lifts["bench"], 
         deadlift=lifts["deadlift"], press=lifts["press"],
         templates=[Template.FSL], 
-        fsl_params={'sets': 3, 'reps': 5}
+        fsl_params={'sets': 3, 'reps': 5},
+        header_text="""
+Accessory Pairings:
+  Squat: Chins
+  OHP: Dips
+  Deadlift: Rows"""
     )
     plan.generate()
