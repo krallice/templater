@@ -19,6 +19,7 @@ class HLMAlternatePressingGenerator:
         secondary_press_name (str): The name of the secondary press (default: "Weighted Dips").
         medium_reduction (float): The reduction percentage for medium intensity (default: 0.10).
         light_reduction (float): The reduction percentage for light intensity (default: 0.20).
+        header_text (Optional[str]): Additional text to include in the workout schedule (default: None).
 
     Methods:
         generate(): Prints the workout schedule including input weights and day-by-day exercises.
