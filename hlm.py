@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from libhlm import HLMAlternatePressingGenerator
+from libhlm import HLMStandardGenerator, HLMAlternatePressingGenerator
 
 if __name__ == '__main__':
     hlm = HLMAlternatePressingGenerator(
