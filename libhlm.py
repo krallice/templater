@@ -110,15 +110,32 @@ class HLMAlternatePressingGenerator:
         ROUNDING_VALUE (float): The value to which calculated weights are rounded.
 
     Args:
+
+        # Squats:
+        heavy_squat_name (str): The name of the heavy squat exercise (default: "Squat").
         squat (float): The input weight for squats (default: 100.0).
-        pull (float): The input weight for pulls (default: 100.0).
+
+        # Presses:
         primary_press (float): The input weight for the primary press (default: 100.0).
-        primary_press_name (str): The name of the primary press (default: "OHP").
-        secondary_press (float): The input weight for the secondary press (default: 100.0).
-        secondary_press_name (str): The name of the secondary press (default: "Weighted Dips").
+        primary_press_name (str): The name of the primary press exercise (default: "OHP").
+        secondary_press (float): The input weight for the secondary press (default: None).
+        secondary_press_name (str): The name of the secondary press exercise (default: None).
+
+        # Pulls:
+        pull (float): The input weight for pulls (default: 100.0).
+        heavy_pull_name (str): The name of the heavy pull exercise (default: "Deadlift").
+        medium_pull (float): The input weight for the medium pull (default: None).
+        medium_pull_name (str): The name of the medium pull exercise (default: None).
+        light_pull (float): The input weight for the light pull (default: None).
+        light_pull_name (str): The name of the light pull exercise (default: None).
+
+        # Core Reductions:
         medium_reduction (float): The reduction percentage for medium intensity (default: 0.10).
         light_reduction (float): The reduction percentage for light intensity (default: 0.20).
-        header_text (Optional[str]): Additional text to include in the workout schedule (default: None).
+
+        # Header Text:
+        header_text (str): Additional text to include in the workout schedule (default: None).
+        
 
     Methods:
         generate(): Prints the workout schedule including input weights and day-by-day exercises.
