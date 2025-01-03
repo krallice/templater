@@ -132,15 +132,15 @@ class HLMAlternatePressingGenerator:
         pull: float = 100.0, 
         primary_press: float = 100.0,
         primary_press_name: str = "OHP",
-        secondary_press: float = 100.0,
-        secondary_press_name: str = "Weighted Dips",
+        secondary_press: Optional[float] = None,
+        secondary_press_name: Optional[str] = None,
         medium_reduction: float = 0.10,
         light_reduction: float = 0.20,
         header_text: Optional[str] = None,
         ):
 
         self.primary_press_name = primary_press_name
-        self.secondary_press_name = secondary_press_name
+        self.secondary_press_name = secondary_press_name or None
 
         self.header_text = header_text
 
@@ -148,7 +148,7 @@ class HLMAlternatePressingGenerator:
             "squat": squat,
             "pull": pull,
             "primary_press": primary_press,
-            "secondary_press": secondary_press
+            "secondary_press": secondary_press or None
         }
 
         self.reductions = {
@@ -165,7 +165,7 @@ class HLMAlternatePressingGenerator:
             "light_pull": self.weights["pull"] * (1 - self.reductions["light"]),
             "heavy_press": primary_press,
             "medium_press": self.weights["primary_press"] * (1 - self.reductions["medium"]),
-            "light_press": secondary_press
+            "light_press": secondary_press if secondary_press else primary_press * (1 - self.reductions["light"]),
         }
 
         for key in self.calculated_weights:
@@ -179,7 +179,8 @@ class HLMAlternatePressingGenerator:
             ],
             "Wed": [
                 f"Light Squat 3x5 - {self.calculated_weights['light_squat']} kg",
-                f"Heavy {self.secondary_press_name} 5x5 - {self.calculated_weights['light_press']} kg",
+                f"Heavy {self.secondary_press_name} 5x5 - {self.calculated_weights['light_press']} kg" if secondary_press else 
+                    f"Light {self.primary_press_name} 3x5 - {self.calculated_weights['light_press']} kg",
                 f"Heavy Pull 2x1-5 - {self.calculated_weights['heavy_pull']} kg"
             ],
             "Fri": [
@@ -202,8 +203,11 @@ class HLMAlternatePressingGenerator:
             if exercise == "primary_press":
                 exercise = self.primary_press_name
             elif exercise == "secondary_press":
-                exercise = self.secondary_press_name
-            output += f"  {exercise.title()} (5s) - {weight} kg\n"
+                if self.secondary_press_name:
+                    exercise = self.secondary_press_name
+                else:
+                    continue
+            output += f"  {exercise.title()} (5s) - {weight} kg\n" 
 
         output += self.header_text if self.header_text else "\n"
         output += "\n"
