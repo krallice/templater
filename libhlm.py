@@ -135,7 +135,7 @@ class HLMAlternatePressingGenerator:
 
         # Header Text:
         header_text (str): Additional text to include in the workout schedule (default: None).
-        
+
 
     Methods:
         generate(): Prints the workout schedule including input weights and day-by-day exercises.
@@ -231,7 +231,7 @@ class HLMAlternatePressingGenerator:
             ],
             "Wed": [
                 f"Light Squat 3x5 - {self.calculated_weights['light_squat']} kg",
-                f"Heavy {self.exercise_names['secondary_press']} 5x5 - {self.calculated_weights['light_press']} kg" if self.weights['secondary_press'] else 
+                f"Heavy {self.exercise_names['secondary_press']} 1x5 - {self.calculated_weights['light_press']} kg, 4x5 Backoff" if self.weights['secondary_press'] else 
                     f"Light {self.exercise_names['primary_press']} 3x5 - {self.calculated_weights['light_press']} kg",
                 f"Heavy {self.exercise_names["heavy_pull"]} 2x1-5 - {self.calculated_weights['heavy_pull']} kg"
             ],
