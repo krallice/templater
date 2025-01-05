@@ -220,26 +220,24 @@ class HLMAlternatePressingGenerator:
         for key in self.calculated_weights:
             self.calculated_weights[key] = round(self.calculated_weights[key] / self.ROUNDING_VALUE) * self.ROUNDING_VALUE
 
-        print(self.weights['medium_pull'])
-
         self.schedule = {
             "Mon": [
                 f"Heavy Squat 1x1-5 - {self.calculated_weights['heavy_squat']} kg, 4x5 Backoff",
-                f"Medium {self.exercise_names["primary_press"]} 4x5 - {self.calculated_weights['medium_press']} kg",
-                f"Light {self.exercise_names["light_pull"]} 3x3-5 - {self.calculated_weights['light_pull']} kg" if self.weights['light_pull'] else
-                    f"Light {self.exercise_names["heavy_pull"]} 3x3-5 - {self.calculated_weights['light_pull']} kg"
+                f"Medium {self.exercise_names['primary_press']} 4x5 - {self.calculated_weights['medium_press']} kg",
+                f"Light {self.exercise_names['light_pull']} 3x3-5 - {self.calculated_weights['light_pull']} kg" if self.weights['light_pull'] else
+                    f"Light {self.exercise_names['heavy_pull']} 3x3-5 - {self.calculated_weights['light_pull']} kg"
             ],
             "Wed": [
                 f"Light Squat 3x5 - {self.calculated_weights['light_squat']} kg",
                 f"Heavy {self.exercise_names['secondary_press']} 1x5 - {self.calculated_weights['light_press']} kg, 4x5 Backoff" if self.weights['secondary_press'] else 
                     f"Light {self.exercise_names['primary_press']} 3x5 - {self.calculated_weights['light_press']} kg",
-                f"Heavy {self.exercise_names["heavy_pull"]} 2x1-5 - {self.calculated_weights['heavy_pull']} kg"
+                f"Heavy {self.exercise_names['heavy_pull']} 2x1-5 - {self.calculated_weights['heavy_pull']} kg"
             ],
             "Fri": [
                 f"Medium Squat 4x5 - {self.calculated_weights['medium_squat']} kg",
                 f"Heavy {self.exercise_names['primary_press']} 1x1-5 - {self.calculated_weights['heavy_press']} kg, 4x5 Backoff",
-                f"Medium {self.exercise_names["medium_pull"]} 3x4-5 - {self.calculated_weights['medium_pull']} kg" if self.weights['medium_pull'] else
-                    f"Medium {self.exercise_names["heavy_pull"]} 3x4-5 - {self.calculated_weights['medium_pull']} kg"
+                f"Medium {self.exercise_names['medium_pull']} 3x4-5 - {self.calculated_weights['medium_pull']} kg" if self.weights['medium_pull'] else
+                    f"Medium {self.exercise_names['heavy_pull']} 3x4-5 - {self.calculated_weights['medium_pull']} kg"
             ]
         }
 
