@@ -253,7 +253,11 @@ class HLMAlternatePressingGenerator:
             if weight == None:
                 continue
             exercise_name = self.exercise_names[exercise]
-            output += f"  {exercise_name.title()} (5s) - {weight} kg\n" 
+            output += f"  {exercise_name.title()} (5s) - {weight} kg\n"
+
+        output += "\nReductions:\n"
+        for reduction, value in self.reductions.items():
+            output += f"  {reduction.title()} Reduction - {value * 100}%\n"
 
         output += self.header_text if self.header_text else "\n"
         output += "\n"
