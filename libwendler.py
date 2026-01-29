@@ -113,14 +113,17 @@ class WendlerBasic531Generator:
     def _validate_templates(self):
         """
         Validate the template combinations to ensure mutual exclusivity.
+        Only one of FSL, Pyramid, or Widowmaker can be selected, or none.
 
         Raises:
             ValueError: If mutually exclusive templates are selected simultaneously.
         """
         mutually_exclusive_templates = {Template.FSL, Template.WIDOWMAKER, Template.PYRAMID}
         selected_exclusive_templates = [t for t in self.templates if t in mutually_exclusive_templates]
+        
         if len(selected_exclusive_templates) > 1:
-            raise ValueError(f"Templates {selected_exclusive_templates} are mutually exclusive. Only one can be selected.")
+            template_names = [t.value for t in selected_exclusive_templates]
+            raise ValueError(f"Templates {template_names} are mutually exclusive. Only one of FSL, Pyramid, or Widowmaker can be selected, or none.")
 
     def _process_fsl_params(self, fsl_params: Optional[dict]) -> Optional[dict]:
         """

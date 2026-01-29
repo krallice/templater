@@ -1,4 +1,5 @@
 from typing import Optional
+import yaml
 
 class HLMStandardGenerator:
     """
@@ -24,13 +25,17 @@ class HLMStandardGenerator:
     TEMPLATE_NAME = "HLM Standard 5s"
     ROUNDING_VALUE = 2.5
 
-    def __init__(self, 
-        squat: float = 100.0, 
-        pull: float = 100.0, 
-        press: float = 100.0,
-        medium_reduction: float = 0.10,
-        light_reduction: float = 0.20
-        ):
+    def __init__(self, config_file: str):
+        # Load configuration from YAML file
+        with open(config_file, 'r') as f:
+            config = yaml.safe_load(f)
+
+        # Extract values from config
+        squat = config.get('squat', 100.0)
+        pull = config.get('pull', 100.0)
+        press = config.get('press', 100.0)
+        medium_reduction = config.get('medium_reduction', 0.10)
+        light_reduction = config.get('light_reduction', 0.20)
 
         self.weights = {
             "squat": squat,
@@ -144,34 +149,31 @@ class HLMAlternatePressingGenerator:
     TEMPLATE_NAME = "HLM 5s (Alternate Pressing)"
     ROUNDING_VALUE = 2.5
 
-    def __init__(self,
-        # Squats:
-        heavy_squat_name: str = "Squat",
-        squat: float = 100.0, 
+    def __init__(self, config_file: str):
+        # Load configuration from YAML file
+        with open(config_file, 'r') as f:
+            config = yaml.safe_load(f)
 
-        # Presses:
-        primary_press: float = 100.0,
-        primary_press_name: str = "OHP",
-        secondary_press: Optional[float] = None,
-        secondary_press_name: Optional[str] = None, 
-        
-        # Pulls:
-        pull: float = 100.0,
-        heavy_pull_name: str = "Deadlift",
+        # Extract values from config with defaults
+        heavy_squat_name = config.get('heavy_squat_name', 'Squat')
+        squat = config.get('squat', 100.0)
 
-        medium_pull: Optional[float] = None,
-        medium_pull_name: Optional[str] = None,
+        primary_press = config.get('primary_press', 100.0)
+        primary_press_name = config.get('primary_press_name', 'OHP')
+        secondary_press = config.get('secondary_press', None)
+        secondary_press_name = config.get('secondary_press_name', None)
 
-        light_pull: Optional[float] = None,
-        light_pull_name: Optional[str] = None,
+        pull = config.get('pull', 100.0)
+        heavy_pull_name = config.get('heavy_pull_name', 'Deadlift')
+        medium_pull = config.get('medium_pull', None)
+        medium_pull_name = config.get('medium_pull_name', None)
+        light_pull = config.get('light_pull', None)
+        light_pull_name = config.get('light_pull_name', None)
 
-        # Core Reductions:
-        medium_reduction: float = 0.10,
-        light_reduction: float = 0.20,
-        
-        # Header Text:
-        header_text: Optional[str] = None,
-        ):
+        medium_reduction = config.get('medium_reduction', 0.10)
+        light_reduction = config.get('light_reduction', 0.20)
+
+        header_text = config.get('header_text', None)
 
         self.header_text = header_text
 
@@ -180,7 +182,7 @@ class HLMAlternatePressingGenerator:
 
             "primary_press": primary_press_name,
             "secondary_press": secondary_press_name or None,
-            
+
             "heavy_pull": heavy_pull_name,
             "medium_pull": medium_pull_name or None,
             "light_pull": light_pull_name or None
@@ -191,7 +193,7 @@ class HLMAlternatePressingGenerator:
 
             "primary_press": primary_press,
             "secondary_press": secondary_press or None,
-            
+
             "heavy_pull": pull,
             "medium_pull": medium_pull or None,
             "light_pull": light_pull or None
@@ -259,7 +261,7 @@ class HLMAlternatePressingGenerator:
         for reduction, value in self.reductions.items():
             output += f"  {reduction.title()} Reduction - {value * 100}%\n"
 
-        output += self.header_text if self.header_text else "\n"
+        output += "\n" + (self.header_text if self.header_text else "")
         output += "\n"
 
         for day, exercises in self.schedule.items():
