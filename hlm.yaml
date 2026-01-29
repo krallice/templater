@@ -2,16 +2,16 @@
 generator: HLMAlternatePressingGenerator
 
 # Squat configuration
-squat: 125
+squat: 127.5
 
 # Press configuration
 primary_press_name: "OHP"
-primary_press: 65
+primary_press: 67.5
 secondary_press_name: "Weighted Dips"
-secondary_press: 47.5
+secondary_press: 50
 
 # Pull configuration
-pull: 140
+pull: 145
 
 # Reduction percentages
 medium_reduction: 0.10
@@ -22,5 +22,5 @@ header_text: |
   Accessories:
     2x10 FatGrip 45kg Curls
     2x12 7.5kg Lateral Raises
-    2x15 70kg Rows
+    2x15 80kg Rows
     +20kg Weighted Pullups
